@@ -74,8 +74,54 @@ func processGame(gameNum int, cubesSet string) bool {
 	return !(redBool || greenBool || blueBool)
 }
 
+func checkMinSetOfCubes(cubesSet string) int {
+
+	var red_count, green_count, blue_count int = 0, 0, 0
+
+	cubesSubset := strings.Split(cubesSet, ";")
+
+	for _, totalCubes := range cubesSubset {
+
+		colouredCubes := strings.Split(totalCubes, ",")
+
+		for _, cube := range colouredCubes {
+			cubeInfo := strings.Split(cube, " ")
+
+			color, count := cubeInfo[2], cubeInfo[1]
+
+			countInt, err := strconv.Atoi(count)
+			if err != nil {
+				fmt.Println("Error: Invalid cube count")
+				return 0
+			}
+
+			switch color {
+			case "red":
+				if countInt > red_count {
+					red_count = countInt
+					break
+				}
+			case "green":
+				if countInt > green_count {
+					green_count = countInt
+					break
+				}
+			case "blue":
+				if countInt > blue_count {
+					blue_count = countInt
+					break
+				}
+			}
+		}
+
+	}
+
+	return red_count * green_count * blue_count
+
+}
+
 func main() {
-	filePath := "inputs/test.in"
+	filePath := "inputs/day02.in"
 
 	file, err := os.Open(filePath)
 	if err != nil {
@@ -87,6 +133,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	var totalGameID int
+	var minSetOfCubes int
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -104,7 +151,11 @@ func main() {
 		if processGame(gameNum, cubesSet) {
 			totalGameID += gameNum
 		}
+
+		minSetOfCubes += checkMinSetOfCubes(cubesSet)
+
 	}
 
-	fmt.Printf("The result is: %d\n", totalGameID)
+	fmt.Printf("Total Game ID: %d\n", totalGameID)
+	fmt.Printf("Sum Of The Power Of Minimal Sets: %d\n", minSetOfCubes)
 }
