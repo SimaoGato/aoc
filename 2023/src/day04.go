@@ -12,22 +12,27 @@ type GameCard struct {
 	CardNum         int
 	WinningNumbers  []int
 	SelectedNumbers []int
+	numberOfCopies  int
 }
 
 func main() {
 
 	filePath := "../inputs/day04.in"
 
-	var gameCardsPoints = doGameCards(filePath)
+	var gameCards = doGameCards(filePath)
 
-	fmt.Println(gameCardsPoints)
+	var gameCardsPoints int = calculateGameCardsPoints(gameCards)
+	var totalScratchCards int = calculateTotalScratchCards(gameCards)
+
+	fmt.Println("The game cards are worth in total: ", gameCardsPoints)
+	fmt.Println("The total number of scratch cards is: ", totalScratchCards)
 }
 
-func doGameCards(filePath string) int {
+func doGameCards(filePath string) []GameCard {
 	file, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
-		return 0
+		return nil
 	}
 	defer func(file *os.File) {
 		err := file.Close()
@@ -55,13 +60,52 @@ func doGameCards(filePath string) int {
 		selectedNumbersString := strings.Split(numbersInfo[1], " ")
 		selectedNumbers := parseToListOfInts(selectedNumbersString)
 
-		gameCard := GameCard{cardNum, winningNumbers, selectedNumbers}
+		gameCard := GameCard{cardNum, winningNumbers, selectedNumbers, 1}
 		gameCards = append(gameCards, gameCard)
 	}
 
-	gameCardsPoints := calculateGameCardsPoints(gameCards)
+	return gameCards
+}
 
-	return gameCardsPoints
+func calculateTotalScratchCards(gameCards []GameCard) int {
+
+	for i := 0; i < len(gameCards); i++ {
+		numberOfMatches := calculateNumberOfMatches(gameCards[i])
+
+		if numberOfMatches != 0 {
+			for k := 1; k <= gameCards[i].numberOfCopies; k++ {
+				for j := i + 1; j <= i+numberOfMatches; j++ {
+					gameCards[j].numberOfCopies++
+				}
+			}
+		}
+
+	}
+
+	return calculateTotalScratchCardsAux(gameCards)
+}
+
+func calculateTotalScratchCardsAux(gameCards []GameCard) int {
+	var totalScratchCards int = 0
+
+	for _, gameCard := range gameCards {
+		totalScratchCards += gameCard.numberOfCopies
+	}
+
+	return totalScratchCards
+}
+
+func calculateNumberOfMatches(gameCard GameCard) int {
+
+	var numberOfMatches int = 0
+
+	for _, selectedNumber := range gameCard.SelectedNumbers {
+		if contains(gameCard.WinningNumbers, selectedNumber) {
+			numberOfMatches++
+		}
+	}
+
+	return numberOfMatches
 }
 
 func calculateGameCardsPoints(gameCards []GameCard) int {
