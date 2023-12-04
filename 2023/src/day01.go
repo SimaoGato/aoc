@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	filePath := "inputs/day01.in"
+	filePath := "../inputs/day01.in"
 	totalCalibration, err := calculateTotalCalibration(filePath)
 	if err != nil {
 		log.Fatal(err)

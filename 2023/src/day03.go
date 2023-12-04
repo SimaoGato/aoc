@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	filePath := "inputs/day03.in"
+	filePath := "../inputs/day03.in"
 
 	var matrix = doMatrix(filePath)
 

@@ -121,7 +121,7 @@ func checkMinSetOfCubes(cubesSet string) int {
 }
 
 func main() {
-	filePath := "inputs/day02.in"
+	filePath := "../inputs/day02.in"
 
 	file, err := os.Open(filePath)
 	if err != nil {
