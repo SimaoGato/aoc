@@ -9,8 +9,9 @@ import (
 )
 
 func main() {
-	// Open the file
-	file, err := os.Open("../inputs/day06.in")
+	filePath := "../inputs/day06.in"
+
+	file, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println("Error opening the file:", err)
 		return
