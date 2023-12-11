@@ -136,9 +136,11 @@ func gcd(a, b int) int {
 	}
 	return gcd(b, a%b)
 }
+
 func lcm(a, b int) int {
 	return a / gcd(a, b) * b
 }
+
 func lcmAll(a int, bs ...int) int {
 	result := a
 	for _, b := range bs {
