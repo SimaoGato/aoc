@@ -66,7 +66,7 @@ func main() {
 
 	hands, bets := parseGameInput(scanner)
 
-	bubbleSort(hands, bets)
+	quickSortWrapper(hands, bets, 0)
 
 	totalWinnings := calculateTotalWinnings(bets)
 
@@ -74,11 +74,71 @@ func main() {
 
 	// Part 2
 
-	bubbleSortWithJoker(hands, bets)
+	quickSortWrapper(hands, bets, 1)
 
 	totalWinningsWithJoker := calculateTotalWinnings(bets)
 
 	fmt.Println("Total winnings with joker are: ", totalWinningsWithJoker)
+}
+
+func quickSort(hands []string, bets []int, low, high int) {
+	if low < high {
+		partitionIndex := partition(hands, bets, low, high)
+		quickSort(hands, bets, low, partitionIndex-1)
+		quickSort(hands, bets, partitionIndex+1, high)
+	}
+}
+
+func partition(hands []string, bets []int, low, high int) int {
+	pivot := hands[high]
+	i := low - 1
+
+	for j := low; j < high; j++ {
+		if !isHand1BetterThanHand2(hands[j], pivot) {
+			i++
+			hands[i], hands[j] = hands[j], hands[i]
+			bets[i], bets[j] = bets[j], bets[i]
+		}
+	}
+
+	hands[i+1], hands[high] = hands[high], hands[i+1]
+	bets[i+1], bets[high] = bets[high], bets[i+1]
+
+	return i + 1
+}
+
+func quickSortWrapper(hands []string, bets []int, opt int) {
+	if opt == 0 {
+		quickSort(hands, bets, 0, len(hands)-1)
+	} else {
+		quickSortWithJoker(hands, bets, 0, len(hands)-1)
+	}
+}
+
+func quickSortWithJoker(hands []string, bets []int, low, high int) {
+	if low < high {
+		partitionIndex := partitionWithJoker(hands, bets, low, high)
+		quickSortWithJoker(hands, bets, low, partitionIndex-1)
+		quickSortWithJoker(hands, bets, partitionIndex+1, high)
+	}
+}
+
+func partitionWithJoker(hands []string, bets []int, low, high int) int {
+	pivot := hands[high]
+	i := low - 1
+
+	for j := low; j < high; j++ {
+		if !isHand1BetterThanHand2WithJoker(hands[j], pivot) {
+			i++
+			hands[i], hands[j] = hands[j], hands[i]
+			bets[i], bets[j] = bets[j], bets[i]
+		}
+	}
+
+	hands[i+1], hands[high] = hands[high], hands[i+1]
+	bets[i+1], bets[high] = bets[high], bets[i+1]
+
+	return i + 1
 }
 
 func parseGameInput(scanner *bufio.Scanner) ([]string, []int) {
@@ -95,28 +155,6 @@ func parseGameInput(scanner *bufio.Scanner) ([]string, []int) {
 	}
 
 	return hands, bets
-}
-
-func bubbleSort(hands []string, bets []int) {
-	for i := 0; i < len(hands)-1; i++ {
-		for j := 0; j < len(hands)-i-1; j++ {
-			if isHand1BetterThanHand2(hands[j], hands[j+1]) {
-				bets[j], bets[j+1] = bets[j+1], bets[j]
-				hands[j], hands[j+1] = hands[j+1], hands[j]
-			}
-		}
-	}
-}
-
-func bubbleSortWithJoker(hands []string, bets []int) {
-	for i := 0; i < len(hands)-1; i++ {
-		for j := 0; j < len(hands)-i-1; j++ {
-			if isHand1BetterThanHand2WithJoker(hands[j], hands[j+1]) {
-				bets[j], bets[j+1] = bets[j+1], bets[j]
-				hands[j], hands[j+1] = hands[j+1], hands[j]
-			}
-		}
-	}
 }
 
 func isHand1BetterThanHand2WithJoker(hand1 string, hand2 string) bool {
