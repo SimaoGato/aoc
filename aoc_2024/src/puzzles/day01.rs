@@ -11,5 +11,31 @@ fn test() {
 }
 
 pub fn solve(data: String) {
-    println!("{}", data);
+    let mut v1: Vec<i32> = Vec::new();
+    let mut v2: Vec<i32> = Vec::new();
+
+    for line in data.lines() {
+        let mut nums = line.split_whitespace();
+        let a = nums.next().unwrap().parse::<i32>().unwrap();
+        let b = nums.next().unwrap().parse::<i32>().unwrap();
+        v1.push(a);
+        v2.push(b);
+    }
+
+    v1.sort();
+    v2.sort();
+
+    let size = v1.len();
+
+    let mut sum = 0;
+
+    for i in 0..size {
+        if v2[i] > v1[i] {
+            sum += v2[i] - v1[i];
+        } else {
+            sum += v1[i] - v2[i];
+        }
+    }
+
+    println!("Part 1: {}", sum);
 }
