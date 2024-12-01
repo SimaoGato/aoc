@@ -1,0 +1,26 @@
+mod puzzles;
+
+use crate::puzzles::*;
+use std::fs;
+
+fn main() {
+    let args = std::env::args().collect::<Vec<String>>();
+    match args.len() {
+        1 => {
+            panic!("No arguments provided");
+        }
+        _ => {
+            let day = args[1].as_str();
+            let data = fs::read_to_string(format!("inputs/{}.txt", day)).unwrap();
+
+            match day {
+                "day01" => {
+                    day01::solve(data);
+                }
+                _ => {
+                    panic!("Invalid day");
+                }
+            }
+        }
+    }
+}
