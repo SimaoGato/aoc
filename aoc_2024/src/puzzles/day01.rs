@@ -38,4 +38,14 @@ pub fn solve(data: String) {
     }
 
     println!("Part 1: {}", sum);
+
+    sum = 0;
+    let mut _count = 0;
+
+    for i in 0..size {
+        _count = v2.iter().filter(|&n| *n == v1[i]).count();
+        sum += v1[i] * (_count as i32);
+    }
+
+    println!("Part 2: {}", sum);
 }
