@@ -38,6 +38,10 @@ fn main() {
                     day06::solve(data);
                 }
 
+                "day07" => {
+                    day07::solve(data);
+                }
+
                 _ => {
                     panic!("Invalid day");
                 }
