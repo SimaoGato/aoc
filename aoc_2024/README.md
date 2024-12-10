@@ -15,6 +15,11 @@ To run a specific day's solution:
 cargo run dayXX
 ```
 
+To run the tests for a specific day's solution:
+```bash
+cargo test puzzles::dayXX::test -- --nocapture
+```
+
 ## Progress
 - [x] Day 1
 - [x] Day 2
@@ -23,7 +28,7 @@ cargo run dayXX
 - [x] Day 5
 - [x] Day 6
 - [x] Day 7
-- [ ] Day 8
+- [x] Day 8
 - [ ] Day 9
 - [ ] Day 10
 - [ ] Day 11
