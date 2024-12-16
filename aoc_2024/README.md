@@ -36,7 +36,7 @@ cargo test puzzles::dayXX::test -- --nocapture
 - [x] Day 13
 - [x] Day 14
 - [x] Day 15
-- [ ] Day 16
+- [x] Day 16
 - [ ] Day 17
 - [ ] Day 18
 - [ ] Day 19
