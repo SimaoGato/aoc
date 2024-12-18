@@ -52,7 +52,7 @@ pub fn solve(data: String) {
     for i in 0..BYTE_LIMIT {
         let (x, y) = corrupted_positions[i];
         if x < GRID_SIZE && y < GRID_SIZE {
-            grid[y][x] = '#';
+            grid[x][y] = '#';
         }
     }
 
@@ -94,7 +94,7 @@ pub fn solve(data: String) {
     for i in BYTE_LIMIT..corrupted_positions.len() {
         let (x, y) = corrupted_positions[i];
         if x < GRID_SIZE && y < GRID_SIZE {
-            grid[y][x] = '#';
+            grid[x][y] = '#';
         }
 
         let result = bfs(&grid, GRID_SIZE, GRID_SIZE);
