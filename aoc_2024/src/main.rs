@@ -82,6 +82,38 @@ fn main() {
                     day17::solve(data);
                 }
 
+                "day18" => {
+                    day18::solve(data);
+                }
+
+                "day19" => {
+                    day19::solve(data);
+                }
+
+                "day20" => {
+                    day20::solve(data);
+                }
+
+                "day21" => {
+                    day21::solve(data);
+                }
+
+                "day22" => {
+                    day22::solve(data);
+                }
+
+                "day23" => {
+                    day23::solve(data);
+                }
+
+                "day24" => {
+                    day24::solve(data);
+                }
+
+                "day25" => {
+                    day25::solve(data);
+                }
+
                 _ => {
                     panic!("Invalid day");
                 }
